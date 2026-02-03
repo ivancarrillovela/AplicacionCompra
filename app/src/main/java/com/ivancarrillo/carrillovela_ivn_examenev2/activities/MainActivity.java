@@ -1,26 +1,60 @@
 package com.ivancarrillo.carrillovela_ivn_examenev2.activities;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
+import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.ivancarrillo.carrillovela_ivn_examenev2.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ViewPager2 viewPager;
+    private BottomNavigationView bottomNavigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        viewPager = findViewById(R.id.viewPager);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+
+        // Configurar Adapter del ViewPager
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+
+        // Sincronizar BottomNav -> ViewPager
+        bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_tiendas) {
+                    viewPager.setCurrentItem(0);
+                    return true;
+                } else if (item.getItemId() == R.id.nav_lista) {
+                    viewPager.setCurrentItem(1);
+                    return true;
+                } else if (item.getItemId() == R.id.nav_resumen) {
+                    viewPager.setCurrentItem(2);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        // Sincronizar ViewPager -> BottomNav (Swipe)
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                switch (position) {
+                    case 0: bottomNavigation.setSelectedItemId(R.id.nav_tiendas); break;
+                    case 1: bottomNavigation.setSelectedItemId(R.id.nav_lista); break;
+                    case 2: bottomNavigation.setSelectedItemId(R.id.nav_resumen); break;
+                }
+            }
         });
     }
 }
