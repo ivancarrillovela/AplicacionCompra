@@ -56,7 +56,7 @@ public class ListFragment extends Fragment {
         activeStore = realm.where(Store.class).equalTo("isActive", true).findFirst();
 
         if (activeStore != null) {
-            tvActiveStoreName.setText("Tienda Activa: " + activeStore.getName());
+            tvActiveStoreName.setText(activeStore.getName());
             
             // Need to setup adapter with the items of THIS store
             // Since items is a RealmList, it's live. But adapter expects List<Item>.

@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Modern Minimalist / Google Style -->
+    <color name="black">#202124</color>
+    <color name="white">#FFFFFF</color>
+    
+    <!-- Backgrounds -->
+    <color name="background">#F8F9FA</color> <!-- Very light gray, almost white -->
+    <color name="surface">#FFFFFF</color>
+    <color name="error">#B00020</color>
+
+    <!-- Text -->
+    <color name="text_primary">#202124</color>
+    <color name="text_secondary">#5F6368</color>
+    <color name="text_tertiary">#80868B</color>
+
+    <!-- Brand / Accents -->
+    <color name="primary">#00796B</color> <!-- Teal 700 (Google Play-ish Green/Teal) -->
+    <color name="primary_variant">#004D40</color>
+    <color name="primary_light">#E0F2F1</color> <!-- Very light teal for backgrounds -->
+    
+    <color name="secondary">#FF9800</color> <!-- Amazon Orange for actions/price -->
+    <color name="secondary_variant">#F57C00</color>
+
+    <!-- Semantic -->
+    <color name="success">#1E8E3E</color>
+    <color name="success_bg">#E6F4EA</color>
+    
+    <!-- UI Elements -->
+    <color name="card_background">#FFFFFF</color>
+    <color name="divider">#DADCE0</color>
 </resources>

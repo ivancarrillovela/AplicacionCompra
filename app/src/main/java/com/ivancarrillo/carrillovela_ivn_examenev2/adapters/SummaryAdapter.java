@@ -72,7 +72,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
             tvName = itemView.findViewById(R.id.tvSummaryName);
             tvDetails = itemView.findViewById(R.id.tvSummaryDetails);
             tvSubtotal = itemView.findViewById(R.id.tvSummarySubtotal);
-            cardView = (CardView) itemView; // root is CardView
+            cardView = (CardView) itemView.findViewById(R.id.cardView);
         }
     }
 }

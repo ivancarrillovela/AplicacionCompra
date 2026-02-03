@@ -35,6 +35,7 @@ public class SummaryFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView tvActiveStoreName, tvTotalItems, tvTotalUnits, tvTotalPrice;
     private Button btnShare, btnClear;
+    private View emptyStateLayout, contentLayout, bottomActions; // Changed to View to be generic
     private SummaryAdapter adapter;
     private Store activeStore;
     private List<Item> summaryItems = new ArrayList<>();
@@ -52,6 +53,11 @@ public class SummaryFragment extends Fragment {
         tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
         btnShare = view.findViewById(R.id.btnShare);
         btnClear = view.findViewById(R.id.btnClear);
+        
+        // New Views for Empty State
+        emptyStateLayout = view.findViewById(R.id.emptyStateLayout);
+        contentLayout = view.findViewById(R.id.contentLayout);
+        bottomActions = view.findViewById(R.id.bottomActions);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -75,7 +81,7 @@ public class SummaryFragment extends Fragment {
         activeStore = realm.where(Store.class).equalTo("isActive", true).findFirst();
 
         if (activeStore != null) {
-            tvActiveStoreName.setText("Tienda Activa: " + activeStore.getName());
+            tvActiveStoreName.setText(activeStore.getName());
 
             // Filter items with quantity > 0
             summaryItems.clear();
@@ -89,8 +95,19 @@ public class SummaryFragment extends Fragment {
                     totalPrice += (item.getPrice() * item.getQuantity());
                 }
             }
+            
+            // Toggle Logic
+            if (summaryItems.isEmpty()) {
+                 if (contentLayout != null) contentLayout.setVisibility(View.GONE);
+                 if (bottomActions != null) bottomActions.setVisibility(View.GONE);
+                 if (emptyStateLayout != null) emptyStateLayout.setVisibility(View.VISIBLE);
+            } else {
+                 if (contentLayout != null) contentLayout.setVisibility(View.VISIBLE);
+                 if (bottomActions != null) bottomActions.setVisibility(View.VISIBLE);
+                 if (emptyStateLayout != null) emptyStateLayout.setVisibility(View.GONE);
+            }
 
-            // Update UI
+            // Update UI Texts
             tvTotalItems.setText("Productos añadidos: " + summaryItems.size());
             tvTotalUnits.setText("Unidades totales: " + totalUnits);
             tvTotalPrice.setText(String.format(Locale.getDefault(), "Total: %.2f €", totalPrice));
@@ -108,6 +125,12 @@ public class SummaryFragment extends Fragment {
             tvActiveStoreName.setText("No hay tienda activa");
             summaryItems.clear(); // Clear list
             if (adapter != null) adapter.notifyDataSetChanged();
+            
+            // Show Empty State
+            if (contentLayout != null) contentLayout.setVisibility(View.GONE);
+            if (bottomActions != null) bottomActions.setVisibility(View.GONE);
+            if (emptyStateLayout != null) emptyStateLayout.setVisibility(View.VISIBLE);
+            
             tvTotalItems.setText("Productos añadidos: 0");
             tvTotalUnits.setText("Unidades totales: 0");
             tvTotalPrice.setText("Total: 0.00 €");

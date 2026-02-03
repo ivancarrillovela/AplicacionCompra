@@ -48,12 +48,23 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
         holder.tvAddress.setText(store.getAddress());
         holder.tvLocation.setText(String.format(Locale.getDefault(), "Lat: %.4f Lon: %.4f", store.getLat(), store.getLon()));
 
+        // Since root is now CardView
+        com.google.android.material.card.MaterialCardView card = (com.google.android.material.card.MaterialCardView) holder.itemView;
+
         if (store.isActive()) {
             holder.tvActiveBadge.setVisibility(View.VISIBLE);
-            holder.itemView.setBackgroundColor(Color.parseColor("#E8F5E9")); // Light Green background
+            // Active: Primary Stroke, White Background with subtle tint
+            card.setStrokeColor(context.getResources().getColor(R.color.primary));
+            card.setStrokeWidth(4);
+            card.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+            card.setCardElevation(8);
         } else {
             holder.tvActiveBadge.setVisibility(View.GONE);
-            holder.itemView.setBackgroundColor(Color.WHITE);
+            // Inactive: Thin gray stroke
+            card.setStrokeColor(context.getResources().getColor(R.color.divider));
+            card.setStrokeWidth(2); // 1dp approx (need px typically but this works if integer is px)
+            card.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+            card.setCardElevation(2);
         }
 
         holder.itemView.setOnClickListener(v -> listener.onStoreClick(store));
