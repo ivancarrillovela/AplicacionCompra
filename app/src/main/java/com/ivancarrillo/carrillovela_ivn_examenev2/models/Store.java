@@ -2,9 +2,12 @@ package com.ivancarrillo.carrillovela_ivn_examenev2.models;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Store extends RealmObject {
 
+    @PrimaryKey
+    private int id;
     private String name;
     private String address;
     private Double lat;
@@ -16,12 +19,21 @@ public class Store extends RealmObject {
     }
 
     public Store(String name, String address, Double lat, Double lon, boolean isActive) {
+        this.id = com.ivancarrillo.carrillovela_ivn_examenev2.app.MyApp.StoreID.incrementAndGet();
         this.name = name;
         this.address = address;
         this.lat = lat;
         this.lon = lon;
         this.isActive = isActive;
         this.items = new RealmList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

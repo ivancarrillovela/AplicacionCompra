@@ -10,7 +10,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.ivancarrillo.carrillovela_ivn_examenev2.R;
 import com.ivancarrillo.carrillovela_ivn_examenev2.adapters.ViewPagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements com.ivancarrillo.carrillovela_ivn_examenev2.fragments.StoreFragment.OnStoreSelectedListener {
 
     private ViewPager2 viewPager;
     private BottomNavigationView bottomNavigation;
@@ -57,5 +57,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onStoreSelected() {
+        // Automatically switch to List Fragment when a store is selected
+        viewPager.setCurrentItem(1);
     }
 }

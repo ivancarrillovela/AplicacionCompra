@@ -42,20 +42,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
 
     @Override
     public void onBindViewHolder(@NonNull SummaryViewHolder holder, int position) {
-        Item item = items.get(position);
-
-        holder.tvName.setText(item.getName());
-        holder.tvDetails.setText(String.format(Locale.getDefault(), "x%d · %.2f €", item.getQuantity(), item.getPrice()));
-        double subtotal = item.getQuantity() * item.getPrice();
-        holder.tvSubtotal.setText(String.format(Locale.getDefault(), "Subtotal: %.2f €", subtotal));
-
-        if (item.isPurchased()) {
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#C8E6C9")); // Light Green for purchased
-        } else {
-            holder.cardView.setCardBackgroundColor(Color.WHITE);
-        }
-
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
+        holder.bind(items.get(position), listener);
     }
 
     @Override
@@ -73,6 +60,21 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
             tvDetails = itemView.findViewById(R.id.tvSummaryDetails);
             tvSubtotal = itemView.findViewById(R.id.tvSummarySubtotal);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
+        }
+
+        public void bind(final Item item, final OnItemClickListener listener) {
+            tvName.setText(item.getName());
+            tvDetails.setText(String.format(Locale.getDefault(), "x%d · %.2f €", item.getQuantity(), item.getPrice()));
+            double subtotal = item.getQuantity() * item.getPrice();
+            tvSubtotal.setText(String.format(Locale.getDefault(), "Subtotal: %.2f €", subtotal));
+
+            if (item.isPurchased()) {
+                cardView.setCardBackgroundColor(Color.parseColor("#C8E6C9")); // Light Green for purchased
+            } else {
+                cardView.setCardBackgroundColor(Color.WHITE);
+            }
+
+            itemView.setOnClickListener(v -> listener.onItemClick(item));
         }
     }
 }

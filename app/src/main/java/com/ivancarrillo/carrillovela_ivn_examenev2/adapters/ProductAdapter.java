@@ -20,13 +20,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private List<Item> items;
     private Context context;
-    private OnProductQuantityChangeListener listener;
+    private OnItemClickListener listener;
 
-    public interface OnProductQuantityChangeListener {
+    public interface OnItemClickListener {
         void onQuantityChange(Item item, int newQuantity);
     }
 
-    public ProductAdapter(Context context, List<Item> items, OnProductQuantityChangeListener listener) {
+    public ProductAdapter(Context context, List<Item> items, OnItemClickListener listener) {
         this.context = context;
         this.items = items;
         this.listener = listener;
@@ -41,22 +41,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Item item = items.get(position);
-
-        holder.tvName.setText(item.getName());
-        holder.tvCategory.setText(item.getCategory());
-        holder.tvPrice.setText(String.format(Locale.getDefault(), "%.2f €", item.getPrice()));
-        holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
-
-        holder.btnIncrease.setOnClickListener(v -> {
-            listener.onQuantityChange(item, item.getQuantity() + 1);
-        });
-
-        holder.btnDecrease.setOnClickListener(v -> {
-            if (item.getQuantity() > 0) {
-                listener.onQuantityChange(item, item.getQuantity() - 1);
-            }
-        });
+        holder.bind(items.get(position), listener);
     }
 
     @Override
@@ -76,6 +61,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
             btnIncrease = itemView.findViewById(R.id.btnIncrease);
             btnDecrease = itemView.findViewById(R.id.btnDecrease);
+        }
+
+        public void bind(final Item item, final OnItemClickListener listener) {
+            tvName.setText(item.getName());
+            tvCategory.setText(item.getCategory());
+            tvPrice.setText(String.format(Locale.getDefault(), "%.2f €", item.getPrice()));
+            tvQuantity.setText(String.valueOf(item.getQuantity()));
+
+            btnIncrease.setOnClickListener(v -> {
+                listener.onQuantityChange(item, item.getQuantity() + 1);
+            });
+
+            btnDecrease.setOnClickListener(v -> {
+                if (item.getQuantity() > 0) {
+                    listener.onQuantityChange(item, item.getQuantity() - 1);
+                }
+            });
         }
     }
 }

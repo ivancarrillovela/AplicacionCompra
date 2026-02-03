@@ -63,17 +63,19 @@ public class ListFragment extends Fragment {
             // We can pass the RealmList directly as it implements List.
             
             if (adapter == null) {
-                 adapter = new ProductAdapter(getContext(), activeStore.getItems(), (item, newQuantity) -> {
-                    updateQuantity(item, newQuantity);
-                });
+                 adapter = new ProductAdapter(getContext(), activeStore.getItems(), new ProductAdapter.OnItemClickListener() {
+                     @Override
+                     public void onQuantityChange(Item item, int newQuantity) {
+                         updateQuantity(item, newQuantity);
+                     }
+                 });
                 recyclerView.setAdapter(adapter);
             } else {
-                // If adapter exists, we might need to swap data if the store changed completely
-                // But simplified: recreating adapter is safer for exam context to ensure correct list binding 
-                // Alternatively, ProductAdapter could have a updateData method.
-                // Let's just recreate for simplicity if store changes.
-                adapter = new ProductAdapter(getContext(), activeStore.getItems(), (item, newQuantity) -> {
-                    updateQuantity(item, newQuantity);
+                adapter = new ProductAdapter(getContext(), activeStore.getItems(), new ProductAdapter.OnItemClickListener() {
+                    @Override
+                    public void onQuantityChange(Item item, int newQuantity) {
+                        updateQuantity(item, newQuantity);
+                    }
                 });
                 recyclerView.setAdapter(adapter);
             }

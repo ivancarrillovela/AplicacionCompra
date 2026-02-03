@@ -20,14 +20,14 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
 
     private List<Store> stores;
     private Context context;
-    private OnStoreClickListener listener;
 
-    public interface OnStoreClickListener {
-        void onStoreClick(Store store);
-        void onStoreLongClick(Store store);
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(Store store);
+        void onItemLongClick(Store store);
     }
-
-    public StoreAdapter(Context context, List<Store> stores, OnStoreClickListener listener) {
+    public StoreAdapter(Context context, List<Store> stores, OnItemClickListener listener) {
         this.context = context;
         this.stores = stores;
         this.listener = listener;
@@ -42,36 +42,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
 
     @Override
     public void onBindViewHolder(@NonNull StoreViewHolder holder, int position) {
-        Store store = stores.get(position);
-
-        holder.tvName.setText(store.getName());
-        holder.tvAddress.setText(store.getAddress());
-        holder.tvLocation.setText(String.format(Locale.getDefault(), "Lat: %.4f Lon: %.4f", store.getLat(), store.getLon()));
-
-        // Since root is now CardView
-        com.google.android.material.card.MaterialCardView card = (com.google.android.material.card.MaterialCardView) holder.itemView;
-
-        if (store.isActive()) {
-            holder.tvActiveBadge.setVisibility(View.VISIBLE);
-            // Active: Primary Stroke, White Background with subtle tint
-            card.setStrokeColor(context.getResources().getColor(R.color.primary));
-            card.setStrokeWidth(4);
-            card.setCardBackgroundColor(context.getResources().getColor(R.color.white));
-            card.setCardElevation(8);
-        } else {
-            holder.tvActiveBadge.setVisibility(View.GONE);
-            // Inactive: Thin gray stroke
-            card.setStrokeColor(context.getResources().getColor(R.color.divider));
-            card.setStrokeWidth(2); // 1dp approx (need px typically but this works if integer is px)
-            card.setCardBackgroundColor(context.getResources().getColor(R.color.white));
-            card.setCardElevation(2);
-        }
-
-        holder.itemView.setOnClickListener(v -> listener.onStoreClick(store));
-        holder.itemView.setOnLongClickListener(v -> {
-            listener.onStoreLongClick(store);
-            return true;
-        });
+        holder.bind(stores.get(position), listener);
     }
 
     @Override
@@ -81,6 +52,8 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
 
     public static class StoreViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvAddress, tvLocation, tvActiveBadge;
+        // Keep reference to view for context access if needed, or pass context to bind
+        // View itemView is already available via super
 
         public StoreViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,6 +61,35 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
             tvAddress = itemView.findViewById(R.id.tvStoreAddress);
             tvLocation = itemView.findViewById(R.id.tvStoreLocation);
             tvActiveBadge = itemView.findViewById(R.id.tvActiveBadge);
+        }
+
+        public void bind(final Store store, final OnItemClickListener listener) {
+            Context context = itemView.getContext();
+            tvName.setText(store.getName());
+            tvAddress.setText(store.getAddress());
+            tvLocation.setText(String.format(Locale.getDefault(), "Lat: %.4f Lon: %.4f", store.getLat(), store.getLon()));
+
+            com.google.android.material.card.MaterialCardView card = (com.google.android.material.card.MaterialCardView) itemView;
+
+            if (store.isActive()) {
+                tvActiveBadge.setVisibility(View.VISIBLE);
+                card.setStrokeColor(context.getResources().getColor(R.color.primary));
+                card.setStrokeWidth(4);
+                card.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+                card.setCardElevation(8);
+            } else {
+                tvActiveBadge.setVisibility(View.GONE);
+                card.setStrokeColor(context.getResources().getColor(R.color.divider));
+                card.setStrokeWidth(2);
+                card.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+                card.setCardElevation(2);
+            }
+
+            itemView.setOnClickListener(v -> listener.onItemClick(store));
+            itemView.setOnLongClickListener(v -> {
+                listener.onItemLongClick(store);
+                return true;
+            });
         }
     }
 }

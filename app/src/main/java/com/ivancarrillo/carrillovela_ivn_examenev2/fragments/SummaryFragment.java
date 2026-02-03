@@ -166,7 +166,7 @@ public class SummaryFragment extends Fragment {
             intent.putExtra(Intent.EXTRA_TEXT, body);
             
             if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivity(intent);
+                startActivity(Intent.createChooser(intent, "Enviar lista de compra con..."));
             } else {
                  Toast.makeText(getContext(), "No hay aplicación de correo instalada", Toast.LENGTH_SHORT).show();
             }

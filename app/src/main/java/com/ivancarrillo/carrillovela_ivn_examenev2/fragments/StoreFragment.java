@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,14 +40,14 @@ public class StoreFragment extends Fragment {
 
         stores = realm.where(Store.class).findAll();
 
-        adapter = new StoreAdapter(getContext(), stores, new StoreAdapter.OnStoreClickListener() {
+        adapter = new StoreAdapter(getContext(), stores, new StoreAdapter.OnItemClickListener() {
             @Override
-            public void onStoreClick(Store store) {
+            public void onItemClick(Store store) {
                 setActiveStore(store);
             }
 
             @Override
-            public void onStoreLongClick(Store store) {
+            public void onItemLongClick(Store store) {
                 openMap(store);
             }
         });
@@ -66,6 +65,23 @@ public class StoreFragment extends Fragment {
         return view;
     }
 
+    // Interface for communication
+    public interface OnStoreSelectedListener {
+        void onStoreSelected();
+    }
+
+    private OnStoreSelectedListener callback;
+
+    @Override
+    public void onAttach(@NonNull android.content.Context context) {
+        super.onAttach(context);
+        try {
+            callback = (OnStoreSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnStoreSelectedListener");
+        }
+    }
+
     private void setActiveStore(Store selectedStore) {
         realm.executeTransaction(r -> {
             // Desactivate all
@@ -76,6 +92,11 @@ public class StoreFragment extends Fragment {
             // Activate selected
             selectedStore.setActive(true);
         });
+        
+        // Notify Activity
+        if (callback != null) {
+            callback.onStoreSelected();
+        }
     }
 
     private void openMap(Store store) {
