@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements com.ivancarrillo.
 
     @Override
     public void onStoreSelected() {
-        // Automatically switch to List Fragment when a store is selected
+        // Cambiar automáticamente al Fragment List cuando se selecciona una tienda
         viewPager.setCurrentItem(1);
     }
 }

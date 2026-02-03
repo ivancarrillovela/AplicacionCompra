@@ -35,7 +35,7 @@ public class SummaryFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView tvActiveStoreName, tvTotalItems, tvTotalUnits, tvTotalPrice;
     private Button btnShare, btnClear;
-    private View emptyStateLayout, contentLayout, bottomActions; // Changed to View to be generic
+    private View emptyStateLayout, contentLayout, bottomActions; // Cambiado a View para ser genérico
     private SummaryAdapter adapter;
     private Store activeStore;
     private List<Item> summaryItems = new ArrayList<>();
@@ -54,7 +54,7 @@ public class SummaryFragment extends Fragment {
         btnShare = view.findViewById(R.id.btnShare);
         btnClear = view.findViewById(R.id.btnClear);
         
-        // New Views for Empty State
+        // Nuevas Vistas para Estado Vacío
         emptyStateLayout = view.findViewById(R.id.emptyStateLayout);
         contentLayout = view.findViewById(R.id.contentLayout);
         bottomActions = view.findViewById(R.id.bottomActions);
@@ -66,7 +66,7 @@ public class SummaryFragment extends Fragment {
 
         loadActiveStore();
 
-        // Listen for store changes (if active store changes elsewhere or items updated)
+        // Escuchar cambios en tienda (si cambia tienda activa o items actualizados)
         realm.addChangeListener(new RealmChangeListener<Realm>() {
             @Override
             public void onChange(Realm realm) {
@@ -77,13 +77,22 @@ public class SummaryFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadActiveStore();
+    }
+
+
+
     private void loadActiveStore() {
+        if (!isAdded()) return;
         activeStore = realm.where(Store.class).equalTo("isActive", true).findFirst();
 
         if (activeStore != null) {
             tvActiveStoreName.setText(activeStore.getName());
 
-            // Filter items with quantity > 0
+            // Filtrar items con cantidad > 0
             summaryItems.clear();
             double totalPrice = 0;
             int totalUnits = 0;
@@ -96,7 +105,7 @@ public class SummaryFragment extends Fragment {
                 }
             }
             
-            // Toggle Logic
+            // Lógica de alternancia
             if (summaryItems.isEmpty()) {
                  if (contentLayout != null) contentLayout.setVisibility(View.GONE);
                  if (bottomActions != null) bottomActions.setVisibility(View.GONE);
@@ -107,7 +116,7 @@ public class SummaryFragment extends Fragment {
                  if (emptyStateLayout != null) emptyStateLayout.setVisibility(View.GONE);
             }
 
-            // Update UI Texts
+            // Actualizar textos de UI
             tvTotalItems.setText("Productos añadidos: " + summaryItems.size());
             tvTotalUnits.setText("Unidades totales: " + totalUnits);
             tvTotalPrice.setText(String.format(Locale.getDefault(), "Total: %.2f €", totalPrice));
@@ -123,10 +132,10 @@ public class SummaryFragment extends Fragment {
 
         } else {
             tvActiveStoreName.setText("No hay tienda activa");
-            summaryItems.clear(); // Clear list
+            summaryItems.clear(); // Limpiar lista
             if (adapter != null) adapter.notifyDataSetChanged();
             
-            // Show Empty State
+            // Mostrar Estado Vacío
             if (contentLayout != null) contentLayout.setVisibility(View.GONE);
             if (bottomActions != null) bottomActions.setVisibility(View.GONE);
             if (emptyStateLayout != null) emptyStateLayout.setVisibility(View.VISIBLE);
@@ -161,7 +170,7 @@ public class SummaryFragment extends Fragment {
         if (activeStore != null && !summaryItems.isEmpty()) {
             String body = Utils.buildShoppingListEmailBody(activeStore, summaryItems);
             Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+            intent.setData(Uri.parse("mailto:")); // solo apps de email deberían manejar esto
             intent.putExtra(Intent.EXTRA_SUBJECT, "Lista de compra - " + activeStore.getName());
             intent.putExtra(Intent.EXTRA_TEXT, body);
             

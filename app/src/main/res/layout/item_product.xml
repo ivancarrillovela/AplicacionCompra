@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
@@ -22,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="Nombre Producto"
             android:textStyle="bold"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,16 +32,17 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/tvProductCategory"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:clickable="false"
             android:text="Categoría"
             android:textColor="@color/text_secondary"
+            android:textSize="14sp"
             app:chipBackgroundColor="@color/background"
+            app:chipMinTouchTargetSize="0dp"
             app:chipStrokeWidth="0dp"
-            app:chipMinTouchTargetSize="0dp"  
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            android:clickable="false"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
@@ -58,44 +60,44 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:background="@drawable/shape_badge"
             android:backgroundTint="#F1F3F4"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="4dp"
-            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvProductCategory"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductCategory">
+            app:layout_constraintTop_toTopOf="@+id/tvProductCategory">
 
             <ImageButton
                 android:id="@+id/btnDecrease"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_arrow_back"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="@color/text_secondary"
-                android:contentDescription="Restar"/>
+                android:contentDescription="Restar"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="@color/text_secondary" />
 
             <TextView
                 android:id="@+id/tvQuantity"
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:gravity="center"
-                android:textStyle="bold"
+                android:text="0"
+                android:textColor="@color/black"
                 android:textSize="14sp"
-                android:textColor="@color/black"/>
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/btnIncrease"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_arrow_forward"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:backgroundTint="@color/primary"
-                android:tint="@color/text_secondary"
+                android:contentDescription="Sumar"
                 android:elevation="2dp"
-                android:contentDescription="Sumar"/>
+                android:src="@drawable/ic_arrow_forward"
+                android:tint="@color/text_secondary" />
 
         </LinearLayout>
 

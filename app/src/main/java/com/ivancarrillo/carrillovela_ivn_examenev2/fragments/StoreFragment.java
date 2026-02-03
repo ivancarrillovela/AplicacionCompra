@@ -36,7 +36,7 @@ public class StoreFragment extends Fragment {
 
         realm = Realm.getDefaultInstance();
         recyclerView = view.findViewById(R.id.rvStores);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(getContext(), 2));
 
         stores = realm.where(Store.class).findAll();
 
@@ -54,7 +54,7 @@ public class StoreFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-        // Listen for changes (e.g. when one becomes active/inactive)
+        // Escuchar cambios (ej. cuando una se activa/desactiva)
         stores.addChangeListener(new RealmChangeListener<RealmResults<Store>>() {
             @Override
             public void onChange(RealmResults<Store> stores) {
@@ -65,7 +65,15 @@ public class StoreFragment extends Fragment {
         return view;
     }
 
-    // Interface for communication
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    // Interfaz para comunicación
     public interface OnStoreSelectedListener {
         void onStoreSelected();
     }
@@ -84,16 +92,16 @@ public class StoreFragment extends Fragment {
 
     private void setActiveStore(Store selectedStore) {
         realm.executeTransaction(r -> {
-            // Desactivate all
+            // Desactivar todas
             RealmResults<Store> allStores = r.where(Store.class).findAll();
             for (Store s : allStores) {
                 s.setActive(false);
             }
-            // Activate selected
+            // Activar seleccionada
             selectedStore.setActive(true);
         });
         
-        // Notify Activity
+        // Notificar a la Activity
         if (callback != null) {
             callback.onStoreSelected();
         }
@@ -106,7 +114,7 @@ public class StoreFragment extends Fragment {
         if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(mapIntent);
         } else {
-            // Fallback if maps not installed, or try generic view
+            // Alternativa si no hay maps instalados, o intentar vista genérica
              Intent fallbackIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
              startActivity(fallbackIntent);
         }

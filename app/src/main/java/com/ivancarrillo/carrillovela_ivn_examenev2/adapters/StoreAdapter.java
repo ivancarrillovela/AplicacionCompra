@@ -52,8 +52,8 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
 
     public static class StoreViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvAddress, tvLocation, tvActiveBadge;
-        // Keep reference to view for context access if needed, or pass context to bind
-        // View itemView is already available via super
+        // Mantener referencia a la vista para acceso al contexto si es necesario
+        // View itemView ya está disponible vía super
 
         public StoreViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,7 +69,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
             tvAddress.setText(store.getAddress());
             tvLocation.setText(String.format(Locale.getDefault(), "Lat: %.4f Lon: %.4f", store.getLat(), store.getLon()));
 
-            com.google.android.material.card.MaterialCardView card = (com.google.android.material.card.MaterialCardView) itemView;
+            com.google.android.material.card.MaterialCardView card = itemView.findViewById(R.id.cardStore);
 
             if (store.isActive()) {
                 tvActiveBadge.setVisibility(View.VISIBLE);
@@ -85,8 +85,8 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
                 card.setCardElevation(2);
             }
 
-            itemView.setOnClickListener(v -> listener.onItemClick(store));
-            itemView.setOnLongClickListener(v -> {
+            card.setOnClickListener(v -> listener.onItemClick(store));
+            card.setOnLongClickListener(v -> {
                 listener.onItemLongClick(store);
                 return true;
             });

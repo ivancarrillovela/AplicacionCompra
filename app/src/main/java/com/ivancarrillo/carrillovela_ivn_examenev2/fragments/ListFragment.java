@@ -19,7 +19,6 @@ import com.ivancarrillo.carrillovela_ivn_examenev2.models.Store;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 
 public class ListFragment extends Fragment {
 
@@ -41,14 +40,6 @@ public class ListFragment extends Fragment {
 
         loadActiveStore();
 
-        // Listen for store changes (if active store changes elsewhere)
-        realm.addChangeListener(new RealmChangeListener<Realm>() {
-            @Override
-            public void onChange(Realm realm) {
-                loadActiveStore();
-            }
-        });
-
         return view;
     }
 
@@ -56,30 +47,23 @@ public class ListFragment extends Fragment {
         activeStore = realm.where(Store.class).equalTo("isActive", true).findFirst();
 
         if (activeStore != null) {
-            tvActiveStoreName.setText(activeStore.getName());
-            
-            // Need to setup adapter with the items of THIS store
-            // Since items is a RealmList, it's live. But adapter expects List<Item>.
-            // We can pass the RealmList directly as it implements List.
-            
-            if (adapter == null) {
-                 adapter = new ProductAdapter(getContext(), activeStore.getItems(), new ProductAdapter.OnItemClickListener() {
-                     @Override
-                     public void onQuantityChange(Item item, int newQuantity) {
-                         updateQuantity(item, newQuantity);
-                     }
-                 });
-                recyclerView.setAdapter(adapter);
-            } else {
-                adapter = new ProductAdapter(getContext(), activeStore.getItems(), new ProductAdapter.OnItemClickListener() {
-                    @Override
-                    public void onQuantityChange(Item item, int newQuantity) {
-                        updateQuantity(item, newQuantity);
-                    }
-                });
-                recyclerView.setAdapter(adapter);
+            // Si la tienda mostrada es la misma que la activa, no recargamos la lista
+            // Esto evita que el scroll salte al modificar cantidades
+            if (activeStore.getName().equals(tvActiveStoreName.getText().toString()) && adapter != null) {
+                return;
             }
-            
+
+            tvActiveStoreName.setText(activeStore.getName());
+
+            // Configurar el adaptador con los items de ESTA tienda
+            adapter = new ProductAdapter(getContext(), activeStore.getItems(), new ProductAdapter.OnItemClickListener() {
+                @Override
+                public void onQuantityChange(Item item, int newQuantity) {
+                    updateQuantity(item, newQuantity);
+                }
+            });
+            recyclerView.setAdapter(adapter);
+
         } else {
             tvActiveStoreName.setText("No hay tienda activa seleccionada");
             recyclerView.setAdapter(null);
@@ -89,18 +73,25 @@ public class ListFragment extends Fragment {
     private void updateQuantity(Item item, int newQuantity) {
         realm.executeTransaction(r -> {
             item.setQuantity(newQuantity);
-            // Also reset purchased status if quantity becomes 0?
+            // También reiniciar estado de comprado si la cantidad llega a 0
             // "Si la cantidad de un producto vuelve a 0 desde el fragment Lista: ... Su estado de marcado se reinicia automáticamente."
             if (newQuantity == 0) {
                 item.setPurchased(false);
             }
         });
-        adapter.notifyDataSetChanged();
+        // Buscar índice del ítem en la lista de la tienda activa
+        if (activeStore != null && activeStore.getItems() != null) {
+            int index = activeStore.getItems().indexOf(item);
+            if (index != -1) {
+                adapter.notifyItemChanged(index);
+            }
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        loadActiveStore();
         if(adapter != null) adapter.notifyDataSetChanged();
     }
 

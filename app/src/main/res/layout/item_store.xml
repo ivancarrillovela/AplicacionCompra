@@ -1,119 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="6dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="@color/white"
-    app:rippleColor="@color/primary_light"
-    app:strokeColor="@color/divider"
-    app:strokeWidth="1dp">
+    android:padding="6dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardStore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/white"
+        app:rippleColor="@color/primary_light"
+        app:strokeColor="@color/divider"
+        app:strokeWidth="1dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="H,1:1"
+        android:clickable="true"
+        android:focusable="true">
 
-        <!-- Store Icon / Logo Styles -->
-        <FrameLayout
-            android:id="@+id/iconContainer"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/circle_background"
-            android:backgroundTint="@color/background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
 
-            <ImageView
-                android:id="@+id/ivStoreIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:src="@android:drawable/ic_dialog_map"
-                app:tint="@color/primary"/>
-        </FrameLayout>
-
-        <!-- Info Column -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@id/iconContainer"
-            app:layout_constraintEnd_toStartOf="@id/tvActiveBadge"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
+            <!-- Active Badge (Top Right) -->
             <TextView
-                android:id="@+id/tvStoreName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nombre de tienda"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/text_primary"/>
-
-            <TextView
-                android:id="@+id/tvStoreAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Dirección"
-                android:textSize="14sp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/text_secondary"/>
-
-            <LinearLayout
+                android:id="@+id/tvActiveBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:text="ACTIVA"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:background="@drawable/shape_badge"
+                android:backgroundTint="@color/success_bg"
+                android:textColor="@color/success"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Icon (Centered Top) -->
+            <ImageView
+                android:id="@+id/ivStoreIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_dialog_map"
+                app:tint="@color/primary"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@id/tvStoreName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"/>
+
+            <!-- Name (Centered) -->
+            <TextView
+                android:id="@+id/tvStoreName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Supermercado"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:gravity="center"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintTop_toBottomOf="@id/ivStoreIcon"
+                app:layout_constraintBottom_toTopOf="@id/tvStoreAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- Address (Centered Bottom) -->
+            <TextView
+                android:id="@+id/tvStoreAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calle Ejemplo 123"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_marginTop="4dp"
-                android:gravity="center_vertical">
-                
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@android:drawable/ic_menu_myplaces"
-                    app:tint="@color/text_tertiary"
-                    android:layout_marginEnd="4dp"/>
-                
-                <TextView
-                    android:id="@+id/tvStoreLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.0 km"
-                    android:textSize="12sp"
-                    android:textColor="@color/text_tertiary"/>
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@id/tvStoreName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tvStoreLocation"/>
 
-        </LinearLayout>
+             <!-- Location (Bottom of Card) -->
+            <TextView
+                android:id="@+id/tvStoreLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.2 km"
+                android:textSize="10sp"
+                android:textColor="@color/text_tertiary"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@id/tvStoreAddress"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Active Badge -->
-        <TextView
-            android:id="@+id/tvActiveBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ACTIVA"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp"
-            android:background="@drawable/shape_badge"
-            android:backgroundTint="@color/success_bg"
-            android:textColor="@color/success"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
