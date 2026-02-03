@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bienvenido"
+                android:text="@string/title_welcome"
                 android:textSize="14sp"
                 android:textColor="@color/text_secondary"
                 android:textStyle="bold"/>
@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Elige tu Tienda"
+                android:text="@string/title_choose_store"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="@color/primary"/>
@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selecciona una tienda \no mantenla pulsada para ver su ubicación"
+                android:text="@string/caption_select_store"
                 android:textSize="14sp"
                 android:textColor="@color/text_tertiary"
                 android:layout_marginTop="4dp"/>

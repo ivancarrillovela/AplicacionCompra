@@ -19,8 +19,6 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
-            case 0:
-                return new StoreFragment();
             case 1:
                 return new ListFragment();
             case 2:

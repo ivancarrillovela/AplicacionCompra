@@ -2,4 +2,58 @@
     <string name="app_name">CarrilloVela_Ivn_ExamenEV2</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Navigation -->
+    <string name="nav_stores">Tiendas</string>
+    <string name="nav_list">Lista</string>
+    <string name="nav_summary">Resumen</string>
+
+    <!-- General -->
+    <string name="placeholder_dash">-</string>
+    <string name="placeholder_zero">0</string>
+    <string name="placeholder_price">0.00 €</string>
+
+    <!-- Fragment Store -->
+    <string name="title_welcome">Bienvenido</string>
+    <string name="title_choose_store">Elige tu Tienda</string>
+    <string name="caption_select_store">Selecciona una tienda \no mantenla pulsada para ver su ubicación</string>
+
+    <!-- Fragment List -->
+    <string name="title_products">Productos</string>
+    <string name="caption_add_items">Añade artículos a tu cesta</string>
+
+    <!-- Fragment Summary -->
+    <string name="title_summary">Resumen</string>
+    <string name="caption_review_order">Revisa, checkea o comparte tu pedido</string>
+    <string name="empty_state_title">El carrito está vacío</string>
+    <string name="empty_state_subtitle">Añade productos de la lista</string>
+    <string name="label_products_count">Productos</string>
+    <string name="label_total_pay">Total a pagar:</string>
+    <string name="btn_clear">Limpiar</string>
+    <string name="btn_share_list">Compartir Lista</string>
+
+    <!-- Items -->
+    <string name="badge_active">ACTIVA</string>
+    <string name="desc_decrease">Restar</string>
+    <string name="desc_increase">Sumar</string>
+
+    <!-- Previews -->
+    <string name="preview_store_name">Supermercado</string>
+    <string name="preview_store_address">Calle Ejemplo 123</string>
+    <string name="preview_store_distance">1.2 km</string>
+    <string name="preview_product_name">Nombre Producto</string>
+    <string name="preview_product_category">Categoría</string>
+    <string name="preview_summary_details">2 uds x 1.50 €</string>
+    <string name="preview_summary_subtotal">3.00 €</string>
+
+    <!-- Java Code Strings -->
+    <string name="msg_no_active_store">No hay tienda activa</string>
+    <string name="msg_no_store_selected">No hay tienda activa seleccionada</string>
+    <string name="format_total_items">Productos añadidos: %d</string>
+    <string name="format_total_units">Unidades totales: %d</string>
+    <string name="msg_list_cleared">Lista limpiada</string>
+    <string name="subject_share_list">Lista de compra - %s</string>
+    <string name="chooser_share_title">Enviar lista de compra con...</string>
+    <string name="error_no_email_app">No hay aplicación de correo instalada</string>
+    <string name="error_list_empty">La lista está vacía</string>
 </resources>

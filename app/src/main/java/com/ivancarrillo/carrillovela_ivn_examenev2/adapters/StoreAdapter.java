@@ -1,7 +1,6 @@
 package com.ivancarrillo.carrillovela_ivn_examenev2.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
 
     @Override
     public void onBindViewHolder(@NonNull StoreViewHolder holder, int position) {
-        holder.bind(stores.get(position), listener);
+        holder.assignData(stores.get(position), listener);
     }
 
     @Override
@@ -63,7 +62,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
             tvActiveBadge = itemView.findViewById(R.id.tvActiveBadge);
         }
 
-        public void bind(final Store store, final OnItemClickListener listener) {
+        public void assignData(final Store store, final OnItemClickListener listener) {
             Context context = itemView.getContext();
             tvName.setText(store.getName());
             tvAddress.setText(store.getAddress());

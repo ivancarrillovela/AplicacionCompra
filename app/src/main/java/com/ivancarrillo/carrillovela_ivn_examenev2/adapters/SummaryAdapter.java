@@ -42,7 +42,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
 
     @Override
     public void onBindViewHolder(@NonNull SummaryViewHolder holder, int position) {
-        holder.bind(items.get(position), listener);
+        holder.assignData(items.get(position), listener);
     }
 
     @Override
@@ -59,10 +59,10 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
             tvName = itemView.findViewById(R.id.tvSummaryName);
             tvDetails = itemView.findViewById(R.id.tvSummaryDetails);
             tvSubtotal = itemView.findViewById(R.id.tvSummarySubtotal);
-            cardView = (CardView) itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.cardView);
         }
 
-        public void bind(final Item item, final OnItemClickListener listener) {
+        public void assignData(final Item item, final OnItemClickListener listener) {
             tvName.setText(item.getName());
             tvDetails.setText(String.format(Locale.getDefault(), "x%d · %.2f €", item.getQuantity(), item.getPrice()));
             double subtotal = item.getQuantity() * item.getPrice();

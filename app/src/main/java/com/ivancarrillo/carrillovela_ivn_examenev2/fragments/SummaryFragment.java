@@ -86,6 +86,7 @@ public class SummaryFragment extends Fragment {
 
 
     private void loadActiveStore() {
+        // Prevención de crash en actualizaciones asíncronas de Realm
         if (!isAdded()) return;
         activeStore = realm.where(Store.class).equalTo("isActive", true).findFirst();
 
@@ -117,9 +118,9 @@ public class SummaryFragment extends Fragment {
             }
 
             // Actualizar textos de UI
-            tvTotalItems.setText("Productos añadidos: " + summaryItems.size());
-            tvTotalUnits.setText("Unidades totales: " + totalUnits);
-            tvTotalPrice.setText(String.format(Locale.getDefault(), "Total: %.2f €", totalPrice));
+            tvTotalItems.setText(getString(R.string.format_total_items, summaryItems.size()));
+            tvTotalUnits.setText(getString(R.string.format_total_units, totalUnits));
+            tvTotalPrice.setText(String.format(Locale.getDefault(), "%.2f €", totalPrice));
 
             if (adapter == null) {
                 adapter = new SummaryAdapter(getContext(), summaryItems, item -> {
@@ -131,18 +132,18 @@ public class SummaryFragment extends Fragment {
             }
 
         } else {
-            tvActiveStoreName.setText("No hay tienda activa");
-            summaryItems.clear(); // Limpiar lista
+            tvActiveStoreName.setText(getString(R.string.msg_no_active_store));
+            summaryItems.clear();
             if (adapter != null) adapter.notifyDataSetChanged();
             
             // Mostrar Estado Vacío
             if (contentLayout != null) contentLayout.setVisibility(View.GONE);
             if (bottomActions != null) bottomActions.setVisibility(View.GONE);
             if (emptyStateLayout != null) emptyStateLayout.setVisibility(View.VISIBLE);
-            
-            tvTotalItems.setText("Productos añadidos: 0");
-            tvTotalUnits.setText("Unidades totales: 0");
-            tvTotalPrice.setText("Total: 0.00 €");
+
+            tvTotalItems.setText(getString(R.string.format_total_items, 0));
+            tvTotalUnits.setText(getString(R.string.format_total_units, 0));
+            tvTotalPrice.setText("0.00 €");
         }
     }
 
@@ -161,8 +162,8 @@ public class SummaryFragment extends Fragment {
                     item.setPurchased(false);
                 }
             });
-            loadActiveStore(); // Refresh UI
-            Toast.makeText(getContext(), "Lista limpiada", Toast.LENGTH_SHORT).show();
+            loadActiveStore();
+            Toast.makeText(getContext(), getString(R.string.msg_list_cleared), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -170,17 +171,17 @@ public class SummaryFragment extends Fragment {
         if (activeStore != null && !summaryItems.isEmpty()) {
             String body = Utils.buildShoppingListEmailBody(activeStore, summaryItems);
             Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse("mailto:")); // solo apps de email deberían manejar esto
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Lista de compra - " + activeStore.getName());
+            intent.setData(Uri.parse("mailto:"));
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_share_list, activeStore.getName()));
             intent.putExtra(Intent.EXTRA_TEXT, body);
             
             if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivity(Intent.createChooser(intent, "Enviar lista de compra con..."));
+                startActivity(Intent.createChooser(intent, getString(R.string.chooser_share_title)));
             } else {
-                 Toast.makeText(getContext(), "No hay aplicación de correo instalada", Toast.LENGTH_SHORT).show();
+                 Toast.makeText(getContext(), getString(R.string.error_no_email_app), Toast.LENGTH_SHORT).show();
             }
         } else {
-             Toast.makeText(getContext(), "La lista está vacía", Toast.LENGTH_SHORT).show();
+             Toast.makeText(getContext(), getString(R.string.error_list_empty), Toast.LENGTH_SHORT).show();
         }
     }
 

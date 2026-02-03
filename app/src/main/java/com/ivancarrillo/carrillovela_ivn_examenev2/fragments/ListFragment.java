@@ -18,7 +18,6 @@ import com.ivancarrillo.carrillovela_ivn_examenev2.models.Item;
 import com.ivancarrillo.carrillovela_ivn_examenev2.models.Store;
 
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 
 public class ListFragment extends Fragment {
 
@@ -40,10 +39,18 @@ public class ListFragment extends Fragment {
 
         loadActiveStore();
 
+        // Usamos RealmChangeListener para detectar cambios en background (cuando estamos en otra tab)
+        // y tener la lista lista ANTES de que el usuario entre, eliminando "lags".
+        realm.addChangeListener(realm -> loadActiveStore());
+
         return view;
     }
 
     private void loadActiveStore() {
+        // Evitamos NullPointer si el callback de Realm salta cuando el fragmento
+        // no está adjunto a la vista (ej. cambio muy rápido de pestañas).
+        if (!isAdded()) return;
+        
         activeStore = realm.where(Store.class).equalTo("isActive", true).findFirst();
 
         if (activeStore != null) {
@@ -56,17 +63,13 @@ public class ListFragment extends Fragment {
             tvActiveStoreName.setText(activeStore.getName());
 
             // Configurar el adaptador con los items de ESTA tienda
-            adapter = new ProductAdapter(getContext(), activeStore.getItems(), new ProductAdapter.OnItemClickListener() {
-                @Override
-                public void onQuantityChange(Item item, int newQuantity) {
-                    updateQuantity(item, newQuantity);
-                }
-            });
+            adapter = new ProductAdapter(getContext(), activeStore.getItems(), this::updateQuantity);
             recyclerView.setAdapter(adapter);
 
         } else {
-            tvActiveStoreName.setText("No hay tienda activa seleccionada");
+            tvActiveStoreName.setText(getString(R.string.msg_no_store_selected));
             recyclerView.setAdapter(null);
+            adapter = null; // Reset adapter if no store
         }
     }
 

@@ -19,6 +19,8 @@ public class Store extends RealmObject {
     }
 
     public Store(String name, String address, Double lat, Double lon, boolean isActive) {
+        // Generamos el ID aquí usando AtomicInteger de MyApp para simular Autoincrement
+        // y cumplir la restricción de NO modificar Utils.java.
         this.id = com.ivancarrillo.carrillovela_ivn_examenev2.app.MyApp.StoreID.incrementAndGet();
         this.name = name;
         this.address = address;
@@ -40,32 +42,16 @@ public class Store extends RealmObject {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public Double getLat() {
         return lat;
     }
 
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
     public Double getLon() {
         return lon;
-    }
-
-    public void setLon(Double lon) {
-        this.lon = lon;
     }
 
     public boolean isActive() {
@@ -78,9 +64,5 @@ public class Store extends RealmObject {
 
     public RealmList<Item> getItems() {
         return items;
-    }
-
-    public void setItems(RealmList<Item> items) {
-        this.items = items;
     }
 }

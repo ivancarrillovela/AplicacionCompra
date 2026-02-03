@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Productos"
+                android:text="@string/title_products"
                 android:textSize="14sp"
                 android:textColor="@color/text_secondary"
                 android:textStyle="bold"/>
@@ -32,7 +32,7 @@
                 android:id="@+id/tvActiveStoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-"
+                android:text="@string/placeholder_dash"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="@color/primary"/>
@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Añade artículos a tu cesta"
+                android:text="@string/caption_add_items"
                 android:textSize="14sp"
                 android:textColor="@color/text_tertiary"
                 android:layout_marginTop="4dp"/>

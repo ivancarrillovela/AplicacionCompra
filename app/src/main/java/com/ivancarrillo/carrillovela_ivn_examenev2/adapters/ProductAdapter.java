@@ -41,7 +41,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.bind(items.get(position), listener);
+        holder.assignData(items.get(position), listener);
     }
 
     @Override
@@ -63,15 +63,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             btnDecrease = itemView.findViewById(R.id.btnDecrease);
         }
 
-        public void bind(final Item item, final OnItemClickListener listener) {
+        public void assignData(final Item item, final OnItemClickListener listener) {
             tvName.setText(item.getName());
             tvCategory.setText(item.getCategory());
             tvPrice.setText(String.format(Locale.getDefault(), "%.2f €", item.getPrice()));
             tvQuantity.setText(String.valueOf(item.getQuantity()));
 
-            btnIncrease.setOnClickListener(v -> {
-                listener.onQuantityChange(item, item.getQuantity() + 1);
-            });
+            btnIncrease.setOnClickListener(v -> listener.onQuantityChange(item, item.getQuantity() + 1));
 
             btnDecrease.setOnClickListener(v -> {
                 if (item.getQuantity() > 0) {

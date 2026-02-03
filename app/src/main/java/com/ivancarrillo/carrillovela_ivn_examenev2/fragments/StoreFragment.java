@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ivancarrillo.carrillovela_ivn_examenev2.R;
@@ -19,7 +18,6 @@ import com.ivancarrillo.carrillovela_ivn_examenev2.app.Utils;
 import com.ivancarrillo.carrillovela_ivn_examenev2.models.Store;
 
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public class StoreFragment extends Fragment {
@@ -55,12 +53,7 @@ public class StoreFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         // Escuchar cambios (ej. cuando una se activa/desactiva)
-        stores.addChangeListener(new RealmChangeListener<RealmResults<Store>>() {
-            @Override
-            public void onChange(RealmResults<Store> stores) {
-                adapter.notifyDataSetChanged();
-            }
-        });
+        stores.addChangeListener(stores -> adapter.notifyDataSetChanged());
 
         return view;
     }
@@ -74,23 +67,9 @@ public class StoreFragment extends Fragment {
     }
 
     // Interfaz para comunicación
-    public interface OnStoreSelectedListener {
-        void onStoreSelected();
-    }
-
-    private OnStoreSelectedListener callback;
-
-    @Override
-    public void onAttach(@NonNull android.content.Context context) {
-        super.onAttach(context);
-        try {
-            callback = (OnStoreSelectedListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnStoreSelectedListener");
-        }
-    }
-
     private void setActiveStore(Store selectedStore) {
+        // Transacción Realm para asegurar consistencia:
+        // Primero desactivamos toas y luego activamos la seleccionada.
         realm.executeTransaction(r -> {
             // Desactivar todas
             RealmResults<Store> allStores = r.where(Store.class).findAll();
@@ -100,11 +79,6 @@ public class StoreFragment extends Fragment {
             // Activar seleccionada
             selectedStore.setActive(true);
         });
-        
-        // Notificar a la Activity
-        if (callback != null) {
-            callback.onStoreSelected();
-        }
     }
 
     private void openMap(Store store) {

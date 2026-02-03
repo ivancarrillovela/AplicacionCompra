@@ -17,6 +17,7 @@ public class Item extends RealmObject {
     }
 
     public Item(String name, String category, double price, int quantity, boolean purchased) {
+        // Asignamos ID atómico en el constructor para persistencia correcta
         this.id = com.ivancarrillo.carrillovela_ivn_examenev2.app.MyApp.ItemID.incrementAndGet();
         this.name = name;
         this.category = category;
@@ -37,24 +38,12 @@ public class Item extends RealmObject {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public double getPrice() {
         return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public int getQuantity() {

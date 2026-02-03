@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Resumen"
+            android:text="@string/title_summary"
             android:textSize="14sp"
             android:textColor="@color/text_secondary"
             android:textStyle="bold"/>
@@ -29,7 +29,7 @@
             android:id="@+id/tvActiveStoreNameSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"
+            android:text="@string/placeholder_dash"
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="@color/primary"/>
@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Revisa, checkea o comparte tu pedido"
+            android:text="@string/caption_review_order"
             android:textSize="14sp"
             android:textColor="@color/text_tertiary"
             android:layout_marginTop="4dp"/>
@@ -72,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="El carrito está vacío"
+            android:text="@string/empty_state_title"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/text_secondary"/>
@@ -80,7 +80,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Añade productos de la lista"
+            android:text="@string/empty_state_subtitle"
             android:textSize="14sp"
             android:textColor="@color/text_tertiary"
             android:layout_marginTop="8dp"/>
@@ -107,7 +107,7 @@
                 android:id="@+id/tvListHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Productos"
+                android:text="@string/title_products"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
                 android:paddingHorizontal="24dp"
@@ -145,13 +145,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Productos"
+                        android:text="@string/label_products_count"
                         android:textColor="@color/text_secondary"/>
                     <TextView
                         android:id="@+id/tvTotalUnits"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="@string/placeholder_zero"
                         android:textColor="@color/text_primary"/>
                 </LinearLayout>
 
@@ -164,7 +164,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Total a pagar"
+                        android:text="@string/label_total_pay"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary"/>
@@ -172,10 +172,10 @@
                         android:id="@+id/tvTotalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0.00 €"
-                        android:textSize="20sp"
+                        android:text="@string/placeholder_price"
+                        android:textSize="26sp"
                         android:textStyle="bold"
-                        android:textColor="@color/primary"/>
+                        android:textColor="@color/secondary"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -198,7 +198,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="Limpiar"
+            android:text="@string/btn_clear"
             android:textColor="@color/error"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:strokeColor="@color/error"
@@ -209,7 +209,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="2"
-            android:text="Compartir Lista"
+            android:text="@string/btn_share_list"
             android:layout_marginStart="8dp"
             app:backgroundTint="@color/primary"/>
 

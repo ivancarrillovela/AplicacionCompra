@@ -15,6 +15,9 @@ import com.ivancarrillo.carrillovela_ivn_examenev2.models.Item;
 
 public class MyApp extends Application {
 
+    // Mantenemos contadores globales atómicos para generar IDs únicos.
+    // Se inicializan al arrancar la app buscando el MAX(id) existente en Realm.
+    // Esto permite usar los constructores de los modelos para asignar IDs
     public static AtomicInteger StoreID = new AtomicInteger();
     public static AtomicInteger ItemID = new AtomicInteger();
 
