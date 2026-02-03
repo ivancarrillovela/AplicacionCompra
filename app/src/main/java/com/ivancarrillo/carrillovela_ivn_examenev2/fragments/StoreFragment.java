@@ -82,7 +82,6 @@ public class StoreFragment extends Fragment {
         String uriString = Utils.openStoreInMaps(store);
         Uri gmmIntentUri = Uri.parse(uriString);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
         if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(mapIntent);
         } else {
