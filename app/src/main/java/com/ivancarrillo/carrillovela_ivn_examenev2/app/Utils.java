@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.ivancarrillo.carrillovela_ivn_examenev2.models.Item;
+import com.ivancarrillo.carrillovela_ivn_examenev2.models.Store;
+
 public class Utils {
     public static List<Store> getSampleData() {
 

@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.ivancarrillo.carrillovela_ivn_examenev2.R;
+import com.ivancarrillo.carrillovela_ivn_examenev2.adapters.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
